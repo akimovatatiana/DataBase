@@ -2,7 +2,6 @@
 --  1. Без указания списка полей
 	INSERT INTO hairdresser VALUES ('Mary', 'Smith', 32, 25000 );
 	INSERT INTO service VALUES ('haircut', 'long hair haircut', '00:50:00', 400, 2);
-	INSERT INTO completed (date, time_spent, complexity, rating) VALUES ('12/04/2020 12:00:00', '00:40:00', 7, 9);
 --  2. С указанием списка полей
 	INSERT INTO salon (name, address, phone, email) VALUES ('MyHair', 'Lenin pr., 15', '+79654875961', 'myhair@gmail.com');
 --  3. С чтением значения из другой таблицы
