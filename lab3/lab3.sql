@@ -1,54 +1,54 @@
--- 1. INSERT
---  1. Без указания списка полей
+п»ї-- 1. INSERT
+--  1. Р‘РµР· СѓРєР°Р·Р°РЅРёСЏ СЃРїРёСЃРєР° РїРѕР»РµР№
 	INSERT INTO hairdresser VALUES ('Mary', 'Smith', 32, 25000 );
 	INSERT INTO service VALUES ('haircut', 'long hair haircut', '00:50:00', 400, 2);
 	INSERT INTO completed (date, time_spent, complexity, rating) VALUES ('12/04/2020 12:00:00', '00:40:00', 7, 9);
---  2. С указанием списка полей
+--  2. РЎ СѓРєР°Р·Р°РЅРёРµРј СЃРїРёСЃРєР° РїРѕР»РµР№
 	INSERT INTO salon (name, address, phone, email) VALUES ('MyHair', 'Lenin pr., 15', '+79654875961', 'myhair@gmail.com');
---  3. С чтением значения из другой таблицы
+--  3. РЎ С‡С‚РµРЅРёРµРј Р·РЅР°С‡РµРЅРёСЏ РёР· РґСЂСѓРіРѕР№ С‚Р°Р±Р»РёС†С‹
 	INSERT INTO hairdresser (first_name, last_name, age) SELECT first_name, last_name, age FROM client;
 
 -- 2. DELETE
---  1. Всех записей
+--  1. Р’СЃРµС… Р·Р°РїРёСЃРµР№
 	DELETE salon;
---  2. По условию
+--  2. РџРѕ СѓСЃР»РѕРІРёСЋ
 	DELETE FROM completed WHERE id_completed = 3;
---	3. Очистить таблицу
+--	3. РћС‡РёСЃС‚РёС‚СЊ С‚Р°Р±Р»РёС†Сѓ
 	TRUNCATE TABLE client;
         
 -- 3. UPDATE
---	1. Всех записей
+--	1. Р’СЃРµС… Р·Р°РїРёСЃРµР№
 	UPDATE completed SET rating = 10;
---	2. По условию обновляя один атрибут
+--	2. РџРѕ СѓСЃР»РѕРІРёСЋ РѕР±РЅРѕРІР»СЏСЏ РѕРґРёРЅ Р°С‚СЂРёР±СѓС‚
 	UPDATE client SET phone = '+79854856175' WHERE first_name = 'Chris' AND last_name = 'Jones' ;
---	3. По условию обновляя несколько атрибутов
+--	3. РџРѕ СѓСЃР»РѕРІРёСЋ РѕР±РЅРѕРІР»СЏСЏ РЅРµСЃРєРѕР»СЊРєРѕ Р°С‚СЂРёР±СѓС‚РѕРІ
 	UPDATE service SET cost = 500, description = 'long hair haircut with styling' WHERE name = 'haircut';
 	
 -- 4. SELECT
---	1. С определенным набором извлекаемых атрибутов (SELECT atr1, atr2 FROM...)
+--	1. РЎ РѕРїСЂРµРґРµР»РµРЅРЅС‹Рј РЅР°Р±РѕСЂРѕРј РёР·РІР»РµРєР°РµРјС‹С… Р°С‚СЂРёР±СѓС‚РѕРІ (SELECT atr1, atr2 FROM...)
 	 SELECT name, address, phone, email FROM salon;
---	2. Со всеми атрибутами (SELECT * FROM...)
+--	2. РЎРѕ РІСЃРµРјРё Р°С‚СЂРёР±СѓС‚Р°РјРё (SELECT * FROM...)
 	SELECT * FROM client;
---	3. С условием по атрибуту (SELECT * FROM ... WHERE atr1 = "")
+--	3. РЎ СѓСЃР»РѕРІРёРµРј РїРѕ Р°С‚СЂРёР±СѓС‚Сѓ (SELECT * FROM ... WHERE atr1 = "")
 	select * FROM service WHERE cost = 500;
 
 -- 5. SELECT ORDER BY + TOP (LIMIT)
---  1. С сортировкой по возрастанию ASC + ограничение вывода количества записей
+--  1. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ ASC + РѕРіСЂР°РЅРёС‡РµРЅРёРµ РІС‹РІРѕРґР° РєРѕР»РёС‡РµСЃС‚РІР° Р·Р°РїРёСЃРµР№
 	SELECT TOP 5 * FROM hairdresser ORDER BY last_name ASC;
---  2. С сортировкой по убыванию DESC
+--  2. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ СѓР±С‹РІР°РЅРёСЋ DESC
 	SELECT TOP 5 * FROM hairdresser ORDER BY last_name DESC;
---  3. С сортировкой по двум атрибутам + ограничение вывода количества записей
+--  3. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РґРІСѓРј Р°С‚СЂРёР±СѓС‚Р°Рј + РѕРіСЂР°РЅРёС‡РµРЅРёРµ РІС‹РІРѕРґР° РєРѕР»РёС‡РµСЃС‚РІР° Р·Р°РїРёСЃРµР№
 	SELECT TOP 5 * FROM hairdresser ORDER BY first_name, salary DESC;
---  4. С сортировкой по первому атрибуту, из списка извлекаемых
+--  4. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РїРµСЂРІРѕРјСѓ Р°С‚СЂРёР±СѓС‚Сѓ, РёР· СЃРїРёСЃРєР° РёР·РІР»РµРєР°РµРјС‹С…
 	SELECT TOP 5 * FROM hairdresser ORDER BY age;
 
--- 6. Работа с датами. Необходимо, чтобы одна из таблиц содержала атрибут с типом DATETIME.
---  1. WHERE по дате
+-- 6. Р Р°Р±РѕС‚Р° СЃ РґР°С‚Р°РјРё. РќРµРѕР±С…РѕРґРёРјРѕ, С‡С‚РѕР±С‹ РѕРґРЅР° РёР· С‚Р°Р±Р»РёС† СЃРѕРґРµСЂР¶Р°Р»Р° Р°С‚СЂРёР±СѓС‚ СЃ С‚РёРїРѕРј DATETIME.
+--  1. WHERE РїРѕ РґР°С‚Рµ
 	SELECT * FROM completed WHERE date = '12/04/2020 12:00:00';
---  2. Извлечь из таблицы не всю дату, а только год. Например, год рождения автора.
+--  2. РР·РІР»РµС‡СЊ РёР· С‚Р°Р±Р»РёС†С‹ РЅРµ РІСЃСЋ РґР°С‚Сѓ, Р° С‚РѕР»СЊРєРѕ РіРѕРґ. РќР°РїСЂРёРјРµСЂ, РіРѕРґ СЂРѕР¶РґРµРЅРёСЏ Р°РІС‚РѕСЂР°.
 	SELECT id_completed, YEAR(date) AS date FROM completed;
 
--- 7. SELECT GROUP BY с функциями агрегации
+-- 7. SELECT GROUP BY СЃ С„СѓРЅРєС†РёСЏРјРё Р°РіСЂРµРіР°С†РёРё
 --  1. MIN
 	SELECT name, MIN(cost) AS min_cost FROM service GROUP BY name;
 --  2. MAX
@@ -61,17 +61,17 @@
 	SELECT name, COUNT(cost) AS count FROM service GROUP BY name;
 
 -- 8. SELECT GROUP BY + HAVING
---  1. Написать 3 разных запроса с использованием GROUP BY + HAVING
+--  1. РќР°РїРёСЃР°С‚СЊ 3 СЂР°Р·РЅС‹С… Р·Р°РїСЂРѕСЃР° СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј GROUP BY + HAVING
 	SELECT name FROM service GROUP BY name HAVING MAX(cost) >= 300;
 	SELECT name, AVG(cost) AS avg_cost FROM service GROUP BY name HAVING AVG(cost) <= 300;
 	SELECT MIN(age) AS min_age, MAX(age) AS max_age, AVG(age) AS avg_age FROM client  HAVING AVG(age) >= 20;
 
 -- 9. SELECT JOIN
---  1. LEFT JOIN двух таблиц и WHERE по одному из атрибутов
+--  1. LEFT JOIN РґРІСѓС… С‚Р°Р±Р»РёС† Рё WHERE РїРѕ РѕРґРЅРѕРјСѓ РёР· Р°С‚СЂРёР±СѓС‚РѕРІ
 	SELECT * FROM service LEFT JOIN hairdresser ON service.id_hairdresser = hairdresser.id_hairdresser WHERE first_name = 'Mary';
---  2. RIGHT JOIN. Получить такую же выборку, как и в 5.1
+--  2. RIGHT JOIN. РџРѕР»СѓС‡РёС‚СЊ С‚Р°РєСѓСЋ Р¶Рµ РІС‹Р±РѕСЂРєСѓ, РєР°Рє Рё РІ 5.1
 	SELECT TOP 5 * FROM hairdresser RIGHT JOIN service ON service.id_service = hairdresser.id_hairdresser ORDER BY last_name ASC;
---  3. LEFT JOIN трех таблиц + WHERE по атрибуту из каждой таблицы
+--  3. LEFT JOIN С‚СЂРµС… С‚Р°Р±Р»РёС† + WHERE РїРѕ Р°С‚СЂРёР±СѓС‚Сѓ РёР· РєР°Р¶РґРѕР№ С‚Р°Р±Р»РёС†С‹
 	SELECT 
 		hairdresser.id_hairdresser, hairdresser.last_name, 
 		completed.id_completed, completed.rating, 
@@ -80,13 +80,13 @@
 		hairdresser LEFT JOIN completed ON hairdresser.id_hairdresser = completed.id_hairdresser
         LEFT JOIN client ON client.id_client = completed.id_client
         WHERE salary = 22000 AND rating > 7 AND client.id_client > 10;
---  4. FULL OUTER JOIN двух таблиц
+--  4. FULL OUTER JOIN РґРІСѓС… С‚Р°Р±Р»РёС†
 	SELECT * FROM completed FULL OUTER JOIN hairdresser ON completed.id_completed = hairdresser.id_hairdresser;
 
--- 10. Подзапросы
---  1. Написать запрос с WHERE IN (подзапрос)
+-- 10. РџРѕРґР·Р°РїСЂРѕСЃС‹
+--  1. РќР°РїРёСЃР°С‚СЊ Р·Р°РїСЂРѕСЃ СЃ WHERE IN (РїРѕРґР·Р°РїСЂРѕСЃ)
 	SELECT * FROM service WHERE time IN ('00:40:00', '00:30:00');
---  2. Написать запрос SELECT atr1, atr2, (подзапрос) FROM ...    
+--  2. РќР°РїРёСЃР°С‚СЊ Р·Р°РїСЂРѕСЃ SELECT atr1, atr2, (РїРѕРґР·Р°РїСЂРѕСЃ) FROM ...    
 	SELECT  
 		id_service, 
 		name, 
