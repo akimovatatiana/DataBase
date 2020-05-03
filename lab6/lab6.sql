@@ -63,7 +63,7 @@ LEFT JOIN lesson ON mark.id_lesson = lesson.id_lesson
 LEFT JOIN subject ON lesson.id_subject = subject.id_subject
 LEFT JOIN student ON mark.id_student = student.id_student
 GROUP BY subject.name
-HAVING COUNT(student.id_student) >= 35
+HAVING COUNT(DISTINCT student.id_student) >= 35
 
 -- 5. Дать оценки студентов специальности ВМ по всем проводимым предметам с
 --		указанием группы, фамилии, предмета, даты. При отсутствии оценки заполнить
@@ -75,11 +75,11 @@ SELECT
 	student.name AS student_name,
 	subject.name AS subject_name,
 	lesson.date
-FROM mark
-LEFT JOIN student ON mark.id_student = student.id_student
-LEFT JOIN lesson ON mark.id_lesson = lesson.id_lesson
+FROM student
 LEFT JOIN [group] ON student.id_group = [group].id_group
+LEFT JOIN lesson ON [group].id_group = lesson.id_group
 LEFT JOIN subject ON lesson.id_subject = subject.id_subject
+LEFT JOIN mark ON (lesson.id_lesson = mark.id_lesson AND student.id_student = mark.id_student)
 WHERE [group].name = 'ВМ'
 GO
 
