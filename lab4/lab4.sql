@@ -124,7 +124,7 @@
 	(
 		[id_client] ASC
 	)
-	CREATE UNIQUE NONCLUSTERED INDEX [IX_client_phone] ON [dbo].[client]
+	CREATE UNIQUE NONCLUSTERED INDEX [IU_client_phone] ON [dbo].[client]
 	(
 		[phone] ASC
 	)
