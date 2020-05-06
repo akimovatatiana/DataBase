@@ -1,4 +1,4 @@
-﻿-- 1. Добавить внешние ключи.
+-- 1. Добавить внешние ключи.
 	ALTER TABLE room 
 		ADD FOREIGN KEY (id_hotel) REFERENCES hotel (id_hotel);
 
@@ -89,7 +89,19 @@
 
 -- 8. Создать бронирование в транзакции
 	BEGIN TRANSACTION
-		INSERT INTO booking VALUES(8, '2020-03-07');  
+
+	INSERT INTO client (name, phone)
+	VALUES 
+		('Иванов Павел Иванович', '7(896)785-87-12');
+	
+	INSERT INTO booking (id_client, booking_date)
+	VALUES 
+		((SELECT MAX(client.id_client) FROM client), CONVERT(date, CURRENT_TIMESTAMP));
+	
+	INSERT INTO room_in_booking (id_booking, id_room, checkin_date, checkout_date)
+	VALUES 
+		((SELECT MAX(booking.id_booking) FROM booking), 12, '2020-04-12', '2020-04-16');
+	 
 	COMMIT;
 
 -- 9. Добавить необходимые индексы для всех таблиц
