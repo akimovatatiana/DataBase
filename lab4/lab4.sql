@@ -81,10 +81,11 @@
 
 --7. Найти все "пересекающиеся" варианты проживания.
 	SELECT *
-	FROM room_in_booking t2, room_in_booking t1
+	FROM room_in_booking t1, room_in_booking t2
 	WHERE 
 		t1.id_room = t2.id_room AND
-		(t2.checkin_date <= t1.checkin_date AND t1.checkout_date < t2.checkout_date)
+		t1.id_room_in_booking != t2.id_room_in_booking AND 
+		(t1.checkin_date <= t2.checkin_date AND t2.checkin_date < t1.checkout_date)
 	ORDER BY t1.id_room_in_booking
 
 -- 8. Создать бронирование в транзакции

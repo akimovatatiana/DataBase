@@ -1,4 +1,4 @@
-﻿-- 1. Добавить внешние ключи.
+-- 1. Добавить внешние ключи.
 	ALTER TABLE dealer 
 		ADD FOREIGN KEY (id_company) REFERENCES company (id_company);
 
@@ -36,9 +36,15 @@
 	LEFT JOIN production ON medicine.id_medicine = production.id_medicine
 	LEFT JOIN company ON production.id_company = company.id_company
 	LEFT JOIN [order] ON production.id_production = [order].id_production
-	WHERE company.name = 'Фарма' 
-	GROUP BY medicine.id_medicine, medicine.name
-	HAVING MIN([order].date) >= '2019-01-25'
+	WHERE 
+		company.name = 'Фарма' AND 
+		production.id_production NOT IN (
+			SELECT 
+				[order].id_production
+			FROM [order]
+			WHERE [order].date < '2019-01-25'
+		)
+	GROUP BY medicine.id_medicine, medicine.name;		
 
 -- 4. Дать минимальный и максимальный баллы лекарств каждой фирмы, которая
 --		оформила не менее 120 заказов.
