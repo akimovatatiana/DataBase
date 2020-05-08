@@ -44,7 +44,11 @@
 			FROM [order]
 			WHERE [order].date < '2019-01-25'
 		)
-	GROUP BY medicine.id_medicine, medicine.name;		
+	GROUP BY medicine.id_medicine, medicine.name;
+	
+	-- Проверка запроса: после добавления лекарства, оно отображается в выборке
+	INSERT medicine (id_medicine, name, cure_duration) VALUES (26, 'Лекарство', 10);
+	INSERT production (id_company, id_medicine, price, rating) VALUES (8, 26, 1236.0000, 4);		
 
 -- 4. Дать минимальный и максимальный баллы лекарств каждой фирмы, которая
 --		оформила не менее 120 заказов.
