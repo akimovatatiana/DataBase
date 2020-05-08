@@ -35,7 +35,9 @@
 	ORDER BY id_room, id_hotel
 
 -- 4. Дать количество проживающих в гостинице "Космос" на 23 марта по каждой категории номеров	
-	SELECT COUNT(room_in_booking.id_room) AS residents, room_category.name FROM room_category
+	SELECT COUNT(room_in_booking.id_room) AS residents, room_category.id_room_category, 
+	(SELECT name FROM room_category AS r WHERE r.id_room_category = room_category.id_room_category) 
+	FROM room_category 
 	INNER JOIN room ON room_category.id_room_category = room.id_room_category
 	INNER JOIN hotel ON hotel.id_hotel = room.id_hotel
 	INNER JOIN room_in_booking ON room.id_room = room_in_booking.id_room
@@ -43,7 +45,7 @@
 		hotel.name = 'Космос' AND 
 		('2019-03-23' >= room_in_booking.checkin_date AND '2019-03-23' < room_in_booking.checkout_date)
 	GROUP BY
-	    room_category.name
+	    room_category.id_room_category
 	
 -- 5. Дать список последних проживавших клиентов по всем комнатам гостиницы "Космос", выехавшим в апреле с указанием даты выезда. 
 -- доработать вывод записи room_in_booking по наименьшему id
@@ -93,15 +95,34 @@
 
 	INSERT INTO client (name, phone)
 	VALUES 
-		('Иванов Павел Иванович', '7(896)785-87-12');
-	
+		('Иванов Павел Игоревич', '7(897)785-87-12');
+
 	INSERT INTO booking (id_client, booking_date)
 	VALUES 
-		((SELECT MAX(client.id_client) FROM client), CONVERT(date, CURRENT_TIMESTAMP));
-	
+		((SELECT id_client FROM client WHERE id_client = SCOPE_IDENTITY()), CONVERT(date, CURRENT_TIMESTAMP));
+
 	INSERT INTO room_in_booking (id_booking, id_room, checkin_date, checkout_date)
 	VALUES 
-		((SELECT MAX(booking.id_booking) FROM booking), 12, '2020-04-12', '2020-04-16');
+		(2003, 12, '2020-04-12', '2020-04-16');
+	 
+	COMMIT;
+--
+	BEGIN TRANSACTION
+
+	INSERT INTO client (name, phone)
+	VALUES 
+		('Сергеев Иван Алексеевич', '7(897)785-89-15');
+
+	INSERT INTO booking (id_client, booking_date)
+	VALUES 
+		((SELECT id_client FROM client WHERE id_client = SCOPE_IDENTITY()), CONVERT(date, CURRENT_TIMESTAMP));
+
+	DECLARE @IdBooking INT;
+	SELECT @IdBooking = id_booking FROM booking WHERE id_booking = SCOPE_IDENTITY();
+
+	INSERT INTO room_in_booking (id_booking, id_room, checkin_date, checkout_date)
+	VALUES 
+		(@IdBooking, 15, '2020-05-08', '2020-05-16');
 	 
 	COMMIT;
 
