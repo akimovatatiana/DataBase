@@ -6,7 +6,7 @@
 	INSERT INTO salon (name, address, phone, email) VALUES ('MyHair', 'Lenin pr., 15', '+79654875961', 'myhair@gmail.com');
 --  3. С чтением значения из другой таблицы
 	INSERT INTO hairdresser (first_name, last_name, birthday) SELECT first_name, last_name, birthday FROM client;
-
+	
 -- 2. DELETE
 --  1. Всех записей
 	DELETE salon;
@@ -61,14 +61,21 @@
 
 -- 8. SELECT GROUP BY + HAVING
 --  1. Написать 3 разных запроса с использованием GROUP BY + HAVING
-	SELECT id_service FROM service GROUP BY id_service HAVING MAX(cost) >= 300;
-	SELECT id_service, AVG(cost) AS avg_cost FROM service GROUP BY id_service HAVING AVG(cost) <= 300;
+	SELECT id_client FROM completed GROUP BY id_client HAVING COUNT(id_completed) >= 3;
+
 	SELECT 
-		MIN(birthday) AS min_birthday, 
-		MAX(birthday) AS max_birthday
-	FROM hairdresser 
+		id_hairdresser, 
+		SUM(rating) AS avg_rating 
+	FROM completed 
 	GROUP BY id_hairdresser 
-	HAVING id_hairdresser = 1;
+	HAVING COUNT(id_completed) > 2;
+
+	SELECT 
+		id_salon,
+		(SELECT name FROM salon s WHERE s.id_salon = hairdresser_salon.id_salon) AS name
+	FROM hairdresser_salon
+	GROUP BY id_salon
+	HAVING COUNT(id_hairdresser) = 2;
 
 -- 9. SELECT JOIN
 --  1. LEFT JOIN двух таблиц и WHERE по одному из атрибутов
