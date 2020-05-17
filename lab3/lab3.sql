@@ -1,4 +1,4 @@
-﻿-- 1. INSERT
+-- 1. INSERT
 --  1. Без указания списка полей
 	INSERT INTO hairdresser VALUES ('Mary', 'Smith', '1985-10-12', 25000 );
 	INSERT INTO service VALUES ('haircut', 'long hair haircut', '00:50:00', 400, 2);
@@ -65,7 +65,7 @@
 
 	SELECT 
 		id_hairdresser, 
-		SUM(rating) AS avg_rating 
+		SUM(rating) AS sum_rating 
 	FROM completed 
 	GROUP BY id_hairdresser 
 	HAVING COUNT(id_completed) > 2;
